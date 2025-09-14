@@ -126,6 +126,48 @@
         </footer>
     </div>
     <script type="module" src="index.tsx"></script>
-<script type="module" src="/index.tsx"></script>
+	<script>
+	    // fooder 引入
+	    document.addEventListener('DOMContentLoaded', () => {
+			  const footerPlaceholder = document.getElementById('footer-placeholder');
+			  if (!footerPlaceholder) return;
+			
+			  // 若你的頁面在 feixu.tw 網域底下，這行就能成功抓到
+			  const FOOTER_PATH = '/footer.html';
+			
+			  fetch(FOOTER_PATH, { cache: 'no-store' })
+			    .then(res => {
+			      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+			      return res.text();
+			    })
+			    .then(html => { footerPlaceholder.innerHTML = html; })
+			    .catch(err => {
+			      console.error('Error loading footer:', err);
+			      footerPlaceholder.innerHTML =
+			        '<footer style="margin-top:24px;color:#fff;opacity:.9;text-align:center">載入頁尾失敗</footer>';
+			    });
+			
+			  // —— 安全綁定：存在才綁，避免腳本中斷 ——
+			  const searchBox = document.getElementById('searchBox');
+			  if (searchBox) {
+			    searchBox.addEventListener('keypress', (e) => {
+			      if (e.key === 'Enter') {
+			        // 你的 performSearch() 內容...
+			      }
+			    });
+			  }
+			});
+	
+			
+	        // 添加頁面載入動畫
+	        window.addEventListener('load', function() {
+	            const sections = document.querySelectorAll('.guide-section');
+	            sections.forEach((section, index) => {
+	                section.style.animationDelay = `${index * 0.1}s`;
+	            });
+	        });
+	    // #_fooder 引入
+	    
+	</script>
 </body>
 </html>
