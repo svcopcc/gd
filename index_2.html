@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GD檢查工具人</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="app-container">
+        <header>
+            <h1>GD檢查工具人</h1>
+            <p>上傳 JSON 資料以分析與視覺化基地台檢查報告。</p>
+        </header>
+        <main>
+            <section id="controls" class="card">
+                <h2>控制面板</h2>
+                <div class="control-group">
+                    <label for="json-upload">1. 上傳 JSON 檔案</label>
+                    <input type="file" id="json-upload" accept=".json" aria-label="上傳 JSON 檔案">
+                </div>
+                <div class="control-group">
+                    <label for="json-paste-area">或貼上 JSON 內容</label>
+                    <textarea id="json-paste-area" rows="6" placeholder="在此貼上 JSON 陣列..."></textarea>
+                    <div class="button-group">
+                        <button id="paste-json-btn" class="action-btn">貼上JSON</button>
+                        <button id="clear-json-btn" class="clear-btn">清除欄位</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>2. 篩選日期範圍</label>
+                    <div class="radio-group">
+                        <input type="radio" id="date-week" name="date-filter" value="week" checked>
+                        <label for="date-week">本週</label>
+                        <input type="radio" id="date-month" name="date-filter" value="month">
+                        <label for="date-month">本月</label>
+                        <input type="radio" id="date-month-last" name="date-filter" value="month-last">
+                        <label for="date-month-last">上個月</label>
+                        <input type="radio" id="date-year" name="date-filter" value="year">
+                        <label for="date-year">本年度</label>
+                        <input type="radio" id="date-custom" name="date-filter" value="custom">
+                        <label for="date-custom">自訂</label>
+                    </div>
+                </div>
+                <div class="control-group" id="custom-date-range" style="display: none;">
+                    <label for="start-date">自訂起訖日</label>
+                    <div class="date-inputs">
+                        <input type="date" id="start-date" aria-label="起始日期">
+                        <span>-</span>
+                        <input type="date" id="end-date" aria-label="結束日期">
+                    </div>
+                </div>
+                 <div class="control-group">
+                    <div class="control-group-header">
+                        <label for="district-filter">3. 篩選轄區 (可多選)</label>
+                        <button id="clear-district-filter-btn" class="clear-btn" aria-label="清除轄區選取">清除選取</button>
+                    </div>
+                    <select multiple id="district-filter" aria-label="篩選轄區" disabled></select>
+                </div>
+                <div class="control-group">
+                    <label for="custom-keyword-input">4. 管理特殊改善關鍵字</label>
+                    <div id="keyword-list-container"></div>
+                    <div class="keyword-input-group">
+                        <input type="text" id="custom-keyword-input" placeholder="輸入新關鍵字，以逗號分隔">
+                        <button id="add-keyword-btn">新增</button>
+                    </div>
+                </div>
+                <button id="analyze-btn" disabled>執行分析</button>
+            </section>
+            <div id="message-container"></div>
+            <section id="results" class="results-grid">
+                <div id="chart-card" class="card" style="display: none;">
+                    <h2>轄區統計</h2>
+                    <div id="chart-container"></div>
+                </div>
+                <div id="station-type-card" class="card" style="display: none;">
+                    <h2>站台型式統計</h2>
+                    <div id="station-type-chart-container"></div>
+                </div>
+                <div id="yearly-stats-card" class="card" style="display: none;">
+                    <h2>年度轄區統計</h2>
+                    <div id="yearly-stats-container"></div>
+                    <div id="yearly-completion-container" style="display: none;">
+                        <h3 class="completion-title">年度完成率</h3>
+                        <div id="yearly-completion-chart-container"></div>
+                    </div>
+                </div>
+                <div id="table-card" class="card" style="display: none;">
+                    <div class="card-header">
+                        <h2>特殊改善情形站台</h2>
+                        <div class="export-buttons">
+                            <button class="export-btn" data-target="special" data-format="csv" aria-label="匯出特殊改善情形為CSV">匯出 CSV</button>
+                            <button class="export-btn" data-target="special" data-format="json" aria-label="匯出特殊改善情形為JSON">匯出 JSON</button>
+                        </div>
+                    </div>
+                    <div id="table-container"></div>
+                </div>
+                <div id="all-stations-card" class="card" style="display: none;">
+                    <div class="card-header">
+                        <h2>完整站台列表</h2>
+                        <div class="export-buttons">
+                            <button class="export-btn" data-target="all" data-format="csv" aria-label="匯出完整站台列表為CSV">匯出 CSV</button>
+                            <button class="export-btn" data-target="all" data-format="json" aria-label="匯出完整站台列表為JSON">匯出 JSON</button>
+                        </div>
+                    </div>
+                    <div id="all-stations-table-container"></div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>Dashboard designed for base station maintenance analysis.</p>
+        </footer>
+    </div>
+    <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "GD資料分析",
+  "description": "根據上傳的 JSON 資料進行轄區分析、檢查改善內容篩選、日期篩選與統計視覺化。",
+  "requestFramePermissions": [
+    "clipboard-read"
+  ]
+}
